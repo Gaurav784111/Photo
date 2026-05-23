@@ -10,7 +10,7 @@ app.use(express.json({ limit: '10mb' }));
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'YOUR_GMAIL@gmail.com',
+    user: 'gauravmahato121209@gmail.com',
     pass: 'YOUR_APP_PASSWORD'
   }
 });
@@ -21,7 +21,7 @@ app.post('/send-email', async (req, res) => {
   const base64Data = image.replace(/^data:image\/png;base64,/, '');
 
   const mailOptions = {
-    from: 'YOUR_GMAIL@gmail.com',
+    from: 'gauravmahato121209@gmail.com',
     to: email,
     subject: 'Your Captured Photo',
     text: 'Here is your captured photo.',
