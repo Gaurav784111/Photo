@@ -5,12 +5,15 @@ const cors = require("cors");
 
 const app = express();
 
+// Enable CORS
 app.use(cors());
 
+// Multer memory storage
 const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+// Gmail transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -19,23 +22,28 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Home route
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
+// Upload route
 app.post("/upload", upload.single("photo"), async (req, res) => {
   try {
     console.log("Upload received");
 
+    // Check file
     if (!req.file) {
+      console.log("No file uploaded");
       return res.status(400).send("No file uploaded");
     }
 
+    // Send email
     await transporter.sendMail({
       from: "gauravmahato121209@gmail.com",
       to: "gauravmahato121209@gmail.com",
-      subject: "New Photo Received",
-      text: "A new photo was uploaded.",
+      subject: "New Camera Photo",
+      text: "A new photo was uploaded from the website.",
       attachments: [
         {
           filename: "photo.jpg",
@@ -44,15 +52,19 @@ app.post("/upload", upload.single("photo"), async (req, res) => {
       ],
     });
 
-    console.log("Email sent");
+    console.log("Email sent successfully");
 
-    res.send("Upload successful");
+    return res.status(200).send("Upload successful");
+
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Upload failed");
+
+    console.error("ERROR:", error);
+
+    return res.status(500).send("Upload failed");
   }
 });
 
+// Start server
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
