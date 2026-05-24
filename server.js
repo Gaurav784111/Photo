@@ -14,14 +14,19 @@ const upload = multer({
 });
 
 // Gmail transporter
-const transporter = nodemailer.createTransport({
+const const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
   secure: true,
+
   auth: {
     user: "gauravmahato121209@gmail.com",
     pass: "yuka ckii tqhq dgbi",
   },
+
+  connectionTimeout: 60000,
+  greetingTimeout: 60000,
+  socketTimeout: 60000,
 });
 
 // Home route
